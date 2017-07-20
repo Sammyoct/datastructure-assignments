@@ -37,33 +37,6 @@ struct node* InsertFirst(struct node * head, int no )
 
     return head;
 }
-
-int count_node(struct node* head)
-{
-    int i = 1;
-    while(head->next != NULL)
-    {
-        head = head->next;
-        i++;
-    }
-    return i;
-}
-
-int find_middle(struct node *head)
-{
-    struct node *slow_ptr = head;
-    struct node *fast_ptr = head;
-    if (head!=NULL)
-    {
-      while (fast_ptr != NULL && fast_ptr->next != NULL)
-      {
-        fast_ptr = fast_ptr->next->next;
-        slow_ptr = slow_ptr->next;
-      }
-      printf("The middle element is [%d]\n\n", slow_ptr->data);
-    }
-}
-
 void Display(struct node * head)
 {
     while(head != NULL)
@@ -72,8 +45,27 @@ void Display(struct node * head)
         head=head->next;
     }
 }
-
-
+struct node* get_common_elements(struct node *head, struct node *head1){
+    struct node *head2 = NULL;
+    struct node *temp1,*temp;
+    temp = head;
+    temp1 = head1;
+    while(temp != NULL){
+        while(temp1 != NULL){
+            if(temp1->data==temp->data){
+                head2 = InsertFirst(head2,temp->data);
+            }
+            temp1 = temp1->next;
+            if(temp1 == NULL && temp !=NULL){
+                temp1= head1;
+            }else{
+                break;
+            }
+        }
+        temp = temp->next;
+    }
+    return head2;
+}
 int main()
 {
     struct node *head = NULL;
@@ -84,6 +76,18 @@ int main()
     head = InsertFirst(head,50);
     printf("\n");
     Display(head);
-    find_middle(head);
+    struct node *head1 = NULL;
+    head1 = InsertFirst(head1,10);
+    head1 = InsertFirst(head1,120);
+    head1 = InsertFirst(head1,30);
+    head1 = InsertFirst(head1,140);
+    head1 = InsertFirst(head1,150);
+    printf("\n");
+    Display(head1);
+    printf("\n");
+    struct node *head2 = NULL;
+    head2 = get_common_elements(head ,head1);
+    Display(head2);
+    printf("\n");
     return 0;
 }
